@@ -1,513 +1,167 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест: Средневековый Казахстан (30 вопросов)</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.5;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 24px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        .question-card {
-            background: #fafafa;
-            border: 1px solid #e0e0e0;
-            border-left: 5px solid #3498db;
-            border-radius: 6px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        .question-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 12px;
-            color: #2c3e50;
-        }
-        .options-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .option-item {
-            margin-bottom: 8px;
-        }
-        .option-label {
-            display: flex;
-            align-items: center;
-            padding: 10px 14px;
-            background: #fff;
-            border: 1px solid #dcdcdc;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-        .option-label:hover {
-            background: #eef7fc;
-        }
-        .option-label input {
-            margin-right: 12px;
-            transform: scale(1.2);
-        }
-        .correct-choice {
-            background-color: #d4edda !important;
-            border-color: #28a745 !important;
-            color: #155724;
-            font-weight: bold;
-        }
-        .wrong-choice {
-            background-color: #f8d7da !important;
-            border-color: #dc3545 !important;
-            color: #721c24;
-        }
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #27ae60;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-        }
-        .btn-submit:hover {
-            background: #219150;
-        }
-        #result-box {
-            display: none;
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .result-good { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .result-bad { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Квиз: темы 17–20</title>
+<style>
+  :root {
+    --bg: #F4F6FA; --card: #FFFFFF; --ink: #1B1F3B; --text: #3D4A5C; --muted: #7A7F8C;
+    --line: #D9DEE7; --opt: #EEF1F6; --opt-hover: #E2E7F0;
+    --gold: #C9A227; --ok: #2E6B57; --ok-bg: #E3F2EC; --bad: #A4243B; --bad-bg: #F8E4E7;
+    --head: #1B1F3B; --head-text: #FFFFFF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12142A; --card: #1C2040; --ink: #F1F3F8; --text: #C9CFDB; --muted: #8E95A6;
+      --line: #2E3458; --opt: #262B50; --opt-hover: #30365E;
+      --ok: #6FC2A2; --ok-bg: #1D3B33; --bad: #F08A9B; --bad-bg: #44222B;
+      --head: #0B0D1E; --head-text: #F1F3F8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 17px; line-height: 1.45; }
+  header { background: var(--head); color: var(--head-text); padding: 32px 16px 28px; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 16px; }
+  header .wrap { padding: 0; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 32px; margin: 0 0 6px; line-height: 1.2; }
+  header p { margin: 0; color: var(--gold); }
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; }
+  .score { font-weight: 700; color: var(--ink); }
+  .score span { color: var(--muted); font-weight: 400; }
+  button.reset { font: inherit; font-size: 15px; border: 1px solid var(--line); background: var(--opt); color: var(--ink); border-radius: 8px; padding: 6px 14px; cursor: pointer; }
+  button.reset:hover { background: var(--opt-hover); }
+  h2 { font-family: Cambria, Georgia, serif; color: var(--ink); font-size: 24px; margin: 36px 0 4px; }
+  .sub { color: var(--muted); font-size: 15px; margin: 0 0 14px; }
+  .q { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 16px; margin: 0 0 14px; }
+  .q h3 { margin: 0 0 12px; font-size: 18px; color: var(--ink); line-height: 1.35; }
+  .q h3 b { color: var(--gold); margin-right: 6px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { display: block; width: 100%; text-align: left; font: inherit; color: var(--text); background: var(--opt); border: 2px solid transparent; border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+  .opt:hover:not(:disabled) { background: var(--opt-hover); }
+  .opt:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .opt:disabled { cursor: default; }
+  .opt.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+  .opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+  .opt.ok::after { content: "  ✓"; }
+  .opt.bad::after { content: "  ✗"; }
+  .expl { display: none; margin: 12px 0 0; font-size: 15px; color: var(--muted); }
+  .q.done .expl { display: block; }
+  .result { display: none; text-align: center; background: var(--head); color: var(--head-text); border-radius: 12px; padding: 24px 16px; margin: 30px 0 40px; }
+  .result.show { display: block; }
+  .result strong { display: block; font-family: Cambria, Georgia, serif; font-size: 30px; color: var(--gold); }
+  footer { height: 40px; }
+</style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Полный тест: Средневековый Казахстан (30 вопросов)</h1>
-    <form id="quiz-form">
-
-        <!-- 1 -->
-        <div class="question-card" id="q1">
-            <div class="question-title">1. Первое классическое феодальное государство в Казахстане:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="A" onclick="checkInstant('q1', 'C')"> A) Огузы</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="B" onclick="checkInstant('q1', 'C')"> B) Кимаки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="C" onclick="checkInstant('q1', 'C')"> C) Караханиды</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="D" onclick="checkInstant('q1', 'C')"> D) Карлуки</label></li>
-            </ul>
-        </div>
-
-        <!-- 2 -->
-        <div class="question-card" id="q2">
-            <div class="question-title">2. На рубеже XI–XII вв. не раз давали отпор каракитаям и канглы:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="A" onclick="checkInstant('q2', 'C')"> A) Огузы и кипчаки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="B" onclick="checkInstant('q2', 'C')"> B) Карлуки и найманы</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="C" onclick="checkInstant('q2', 'C')"> C) Найманы и кереиты</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="D" onclick="checkInstant('q2', 'C')"> D) Тюргеши и карлуки</label></li>
-            </ul>
-        </div>
-
-        <!-- 3 -->
-        <div class="question-card" id="q3">
-            <div class="question-title">3. В XII–XIII вв. от Мавританнии до Жетысу простирались владения:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="A" onclick="checkInstant('q3', 'B')"> A) Кимаков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="B" onclick="checkInstant('q3', 'B')"> B) Караханидов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="C" onclick="checkInstant('q3', 'B')"> C) Каракитаев</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="D" onclick="checkInstant('q3', 'B')"> D) Кыпчаков</label></li>
-            </ul>
-        </div>
-
-        <!-- 4 -->
-        <div class="question-card" id="q4">
-            <div class="question-title">4. Акша и тегин означают титулы, принадлежавшие сыновьям:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="A" onclick="checkInstant('q4', 'D')"> A) Живут ить</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="B" onclick="checkInstant('q4', 'D')"> B) Караханидов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="C" onclick="checkInstant('q4', 'D')"> C) Тегинов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="D" onclick="checkInstant('q4', 'D')"> D) Кагана</label></li>
-            </ul>
-        </div>
-
-        <!-- 5 -->
-        <div class="question-card" id="q5">
-            <div class="question-title">5. После смерти хана власть могла переходить младшему брату или сыну у:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="A" onclick="checkInstant('q5', 'C')"> A) Караханидов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="B" onclick="checkInstant('q5', 'C')"> B) Каракитаев</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="C" onclick="checkInstant('q5', 'C')"> C) Кыпчаков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="C" onclick="checkInstant('q5', 'C')"> D) Огузов</label></li>
-            </ul>
-        </div>
-
-        <!-- 6 -->
-        <div class="question-card" id="q6">
-            <div class="question-title">6. В XI веке власть на основной территории Казахстана перешла от кимаков:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="A" onclick="checkInstant('q6', 'D')"> A) К аланам</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="D" onclick="checkInstant('q6', 'D')"> B) К огузам</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="C" onclick="checkInstant('q6', 'D')"> C) К урам</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="D" onclick="checkInstant('q6', 'D')"> D) К кыпчакам</label></li>
-            </ul>
-        </div>
-
-        <!-- 7 -->
-        <div class="question-card" id="q7">
-            <div class="question-title">7. Полномочия по внутренним делам улусов у найманов управлял:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="A" onclick="checkInstant('q7', 'C')"> A) Гурхан</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="B" onclick="checkInstant('q7', 'C')"> B) Шерби</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="C" onclick="checkInstant('q7', 'C')"> C) Черби</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="D" onclick="checkInstant('q7', 'C')"> D) Вазир</label></li>
-            </ul>
-        </div>
-
-        <!-- 8 -->
-        <div class="question-card" id="q8">
-            <div class="question-title">8. Основу народности найманов составили:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="A" onclick="checkInstant('q8', 'C')"> A) Карлуки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="B" onclick="checkInstant('q8', 'C')"> B) Гунны</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="C" onclick="checkInstant('q8', 'C')"> C) Кипчаки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="D" onclick="checkInstant('q8', 'C')"> D) Огузы</label></li>
-            </ul>
-        </div>
-
-        <!-- 9 -->
-        <div class="question-card" id="q9">
-            <div class="question-title">9. Земли между Алтаем и Волгой назывались:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="A" onclick="checkInstant('q9', 'A')"> A) Дешт-и-Кипчак</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="B" onclick="checkInstant('q9', 'A')"> B) Восточный Туркестан</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="C" onclick="checkInstant('q9', 'A')"> C) Мавераннахр</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="D" onclick="checkInstant('q9', 'A')"> D) Хорасан</label></li>
-            </ul>
-        </div>
-
-        <!-- 10 -->
-        <div class="question-card" id="q10">
-            <div class="question-title">10. В начале XIII века Восточно-Караханидское государство попадает в зависимость от:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="A" onclick="checkInstant('q10', 'D')"> A) Найманов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="B" onclick="checkInstant('q10', 'D')"> B) Кипчаков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="C" onclick="checkInstant('q10', 'D')"> C) Хорезмшаха</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="D" onclick="checkInstant('q10', 'D')"> D) Найманов (Кучлука)</label></li>
-            </ul>
-        </div>
-
-        <!-- 11 -->
-        <div class="question-card" id="q11">
-            <div class="question-title">11. В начале XII века под их натиском караханиды попали в зависимость от:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="A" onclick="checkInstant('q11', 'C')"> A) Кипчаков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="B" onclick="checkInstant('q11', 'C')"> B) Найманов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="C" onclick="checkInstant('q11', 'C')"> C) Каракитаев</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="D" onclick="checkInstant('q11', 'C')"> D) Сельджуков</label></li>
-            </ul>
-        </div>
-
-        <!-- 12 -->
-        <div class="question-card" id="q12">
-            <div class="question-title">12. На западе от Енисея в XI–XII вв. жили:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="A" onclick="checkInstant('q12', 'C')"> A) Тюргеши и карлуки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="B" onclick="checkInstant('q12', 'C')"> B) Кимаки и огузы</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="C" onclick="checkInstant('q12', 'C')"> C) Найманы и кереиты</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="D" onclick="checkInstant('q12', 'C')"> D) Уйгуры и карлуки</label></li>
-            </ul>
-        </div>
-
-        <!-- 13 -->
-        <div class="question-card" id="q13">
-            <div class="question-title">13. Государство Караханидов состояло из частей:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="A" onclick="checkInstant('q13', 'C')"> A) Запада и Севера</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="B" onclick="checkInstant('q13', 'C')"> B) Юга и Востока</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="C" onclick="checkInstant('q13', 'C')"> C) Восточной и Западной</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="D" onclick="checkInstant('q13', 'C')"> D) Северной и Южной</label></li>
-            </ul>
-        </div>
-
-        <!-- 14 -->
-        <div class="question-card" id="q14">
-            <div class="question-title">14. В 1040–1212 гг. Караханиды попали в зависимость от:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="A" onclick="checkInstant('q14', 'B')"> A) Найманов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="B" onclick="checkInstant('q14', 'B')"> B) Сельджуков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="C" onclick="checkInstant('q14', 'B')"> C) Кипчаков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="D" onclick="checkInstant('q14', 'B')"> D) Карлуков</label></li>
-            </ul>
-        </div>
-
-        <!-- 15 -->
-        <div class="question-card" id="q15">
-            <div class="question-title">15. Наместников хана у каракитаев называли:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="A" onclick="checkInstant('q15', 'A')"> A) Шерби / Наместник</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="B" onclick="checkInstant('q15', 'A')"> B) Баскак</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="C" onclick="checkInstant('q15', 'A')"> C) Даруга</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="D" onclick="checkInstant('q15', 'A')"> D) Визгирь</label></li>
-            </ul>
-        </div>
-
-        <!-- 16 -->
-        <div class="question-card" id="q16">
-            <div class="question-title">16. В 1125 г. власть над Енисеем и Жетысу захватили:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="A" onclick="checkInstant('q16', 'D')"> A) Найманы</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="B" onclick="checkInstant('q16', 'D')"> B) Кереиты</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="C" onclick="checkInstant('q16', 'D')"> C) Кипчаки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="D" onclick="checkInstant('q16', 'D')"> D) Каракитаи</label></li>
-            </ul>
-        </div>
-
-        <!-- 17 -->
-        <div class="question-card" id="q17">
-            <div class="question-title">17. На берегах Орхона и Керулена в XI–XII вв. жили:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="A" onclick="checkInstant('q17', 'C')"> A) Найманы</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="B" onclick="checkInstant('q17', 'C')"> B) Жалайыры</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="C" onclick="checkInstant('q17', 'C')"> C) Кереиты</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="D" onclick="checkInstant('q17', 'C')"> D) Карлуки</label></li>
-            </ul>
-        </div>
-
-        <!-- 18 -->
-        <div class="question-card" id="q18">
-            <div class="question-title">18. Качественно новым этапом в жизни тюрков стало государство:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="A" onclick="checkInstant('q18', 'D')"> A) Огузов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="B" onclick="checkInstant('q18', 'D')"> B) Кимаков</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="C" onclick="checkInstant('q18', 'D')"> C) Монголов</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="D" onclick="checkInstant('q18', 'D')"> D) Караханидов</label></li>
-            </ul>
-        </div>
-
-        <!-- 19 -->
-        <div class="question-card" id="q19">
-            <div class="question-title">19. Территория Казахстана, где было расположено наибольшее число городов в эпоху Средневековья:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="A" onclick="checkInstant('q19', 'C')"> A) Восточный Казахстан</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="B" onclick="checkInstant('q19', 'C')"> B) Центральный Казахстан</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="C" onclick="checkInstant('q19', 'C')"> C) Южный Казахстан и Жетысу</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="D" onclick="checkInstant('q19', 'C')"> D) Западный Казахстан</label></li>
-            </ul>
-        </div>
-
-        <!-- 20 -->
-        <div class="question-card" id="q20">
-            <div class="question-title">20. Известный ученый-востоковед В. Бартольд основной причиной переселения согдийцев в Семиречье считал:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="A" onclick="checkInstant('q20', 'B')"> A) Арабские завоевания</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="B" onclick="checkInstant('q20', 'B')"> B) Торговлю</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="C" onclick="checkInstant('q20', 'B')"> C) Междоусобные войны</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="D" onclick="checkInstant('q20', 'B')"> D) Религиозные притеснения</label></li>
-            </ul>
-        </div>
-
-        <!-- 21 -->
-        <div class="question-card" id="q21">
-            <div class="question-title">21. В Жетысу все средневековые города располагались:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="A" onclick="checkInstant('q21', 'A')"> A) Вдоль предгорий и рек (на караванных путях)</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="B" onclick="checkInstant('q21', 'A')"> B) В глубоких степях</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="C" onclick="checkInstant('q21', 'A')"> C) На юге Алтая</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="D" onclick="checkInstant('q21', 'A')"> D) В пустыне Бетпак-Дала</label></li>
-            </ul>
-        </div>
-
-        <!-- 22 -->
-        <div class="question-card" id="q22">
-            <div class="question-title">22. «Требовалось 30 дней пути, чтобы пройти земли карлуков с запада на восток», – писал арабский географ:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="A" onclick="checkInstant('q22', 'C')"> A) Ибн Фадлан</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="B" onclick="checkInstant('q22', 'C')"> B) Аль-Масуди</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="C" onclick="checkInstant('q22', 'C')"> C) Ибн Хаукаль</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="D" onclick="checkInstant('q22', 'C')"> D) Аль-Идриси</label></li>
-            </ul>
-        </div>
-
-        <!-- 23 -->
-        <div class="question-card" id="q23">
-            <div class="question-title">23. Первые тюргешские монеты чеканились в городе:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="A" onclick="checkInstant('q23', 'A')"> A) Тараз (и Акбешим)</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="B" onclick="checkInstant('q23', 'A')"> B) Отрар</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="C" onclick="checkInstant('q23', 'A')"> C) Сыганак</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="D" onclick="checkInstant('q23', 'A')"> D) Испиджаб</label></li>
-            </ul>
-        </div>
-
-        <!-- 24 -->
-        <div class="question-card" id="q24">
-            <div class="question-title">24. Согласно сообщению «Худуд аль-алам» (Х век) в государстве карлуков насчитывалось городов и поселений:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="A" onclick="checkInstant('q24', 'C')"> A) 12</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="B" onclick="checkInstant('q24', 'C')"> B) 18</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="C" onclick="checkInstant('q24', 'C')"> C) 25</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="D" onclick="checkInstant('q24', 'C')"> D) 30</label></li>
-            </ul>
-        </div>
-
-        <!-- 25 -->
-        <div class="question-card" id="q25">
-            <div class="question-title">25. Фраза: «Среди согдийцев нет таких, кто бы не говорил на тюркском языке» принадлежит ученому XI века:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="A" onclick="checkInstant('q25', 'B')"> A) Юсуфу Баласагуни</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="B" onclick="checkInstant('q25', 'B')"> B) Махмуду Кашгари</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="C" onclick="checkInstant('q25', 'B')"> C) Аль-Фараби</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="D" onclick="checkInstant('q25', 'B')"> D) Ахмеду Ясауи</label></li>
-            </ul>
-        </div>
-
-        <!-- 26 -->
-        <div class="question-card" id="q26">
-            <div class="question-title">26. Непревзойденными мастерами конской сбруи были:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="A" onclick="checkInstant('q26', 'A')"> A) Кимаки</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="B" onclick="checkInstant('q26', 'A')"> B) Огузы</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="C" onclick="checkInstant('q26', 'A')"> C) Тюргеши</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="D" onclick="checkInstant('q26', 'A')"> D) Найманы</label></li>
-            </ul>
-        </div>
-
-        <!-- 27 -->
-        <div class="question-card" id="q27">
-            <div class="question-title">27. В V–VII веках тюрки с умершими поступали следующим образом:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="A" onclick="checkInstant('q27', 'A')"> A) Сжигали (кремировали), а золу хоронили</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="B" onclick="checkInstant('q27', 'A')"> B) Хоронили в мавзолеях</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="C" onclick="checkInstant('q27', 'A')"> C) Топили в реках</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="D" onclick="checkInstant('q27', 'A')"> D) Оставляли в горах</label></li>
-            </ul>
-        </div>
-
-        <!-- 28 -->
-        <div class="question-card" id="q28">
-            <div class="question-title">28. В каком году Караханиды официально приняли ислам в качестве государственной религии?</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="A" onclick="checkInstant('q28', 'B')"> A) 751 г.</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="B" onclick="checkInstant('q28', 'B')"> B) 960 г.</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="C" onclick="checkInstant('q28', 'B')"> C) 1001 г.</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="D" onclick="checkInstant('q28', 'B')"> D) 1212 г.</label></li>
-            </ul>
-        </div>
-
-        <!-- 29 -->
-        <div class="question-card" id="q29">
-            <div class="question-title">29. Столица Огузского государства в нижнем течении Сырдарьи:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="A" onclick="checkInstant('q29', 'C')"> A) Суяб</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="B" onclick="checkInstant('q29', 'C')"> B) Имакия</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="C" onclick="checkInstant('q29', 'C')"> C) Янгикент</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="D" onclick="checkInstant('q29', 'C')"> D) Баласагун</label></li>
-            </ul>
-        </div>
-
-        <!-- 30 -->
-        <div class="question-card" id="q30">
-            <div class="question-title">30. Сражение 751 года между арабами и китайцами с участием карлуков:</div>
-            <ul class="options-list">
-                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="A" onclick="checkInstant('q30', 'B')"> A) Каталаунская битва</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="B" onclick="checkInstant('q30', 'B')"> B) Атласская битва</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="C" onclick="checkInstant('q30', 'B')"> C) Битва при Иссык-Куле</label></li>
-                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="D" onclick="checkInstant('q30', 'B')"> D) Ангорская битва</label></li>
-            </ul>
-        </div>
-
-        <button type="button" class="btn-submit" onclick="finishQuiz()">Завершить и подвести итоги</button>
-    </form>
-
-    <div id="result-box"></div>
+<header>
+  <div class="wrap">
+    <h1>Квиз по всемирной истории</h1>
+    <p>Темы 17–20: Иран и Россия · Османская империя · Китай · 1848 год, Италия и Германия</p>
+  </div>
+</header>
+<div class="bar">
+  <div class="wrap">
+    <div class="score" id="score">Верно: 0 <span>/ 0 отвечено из 0</span></div>
+    <button class="reset" id="reset" type="button">Начать заново</button>
+  </div>
 </div>
+<main class="wrap" id="quiz"></main>
+<div class="wrap"><div class="result" id="result"></div></div>
+<footer></footer>
 
 <script>
-    const answerKeys = {
-        q1: 'C', q2: 'C', q3: 'B', q4: 'D', q5: 'C',
-        q6: 'D', q7: 'C', q8: 'C', q9: 'A', q10: 'D',
-        q11: 'C', q12: 'C', q13: 'C', q14: 'B', q15: 'A',
-        q16: 'D', q17: 'C', q18: 'D', q19: 'C', q20: 'B',
-        q21: 'A', q22: 'C', q23: 'A', q24: 'C', q25: 'B',
-        q26: 'A', q27: 'A', q28: 'B', q29: 'C', q30: 'B'
-    };
+const SECTIONS = [
+  { title: "Тема 17. Иран в XIX веке: англо-русское соперничество", sub: "Вопросы по карточкам Quizlet", qs: [
+    { q: "В каком году Персия официально стала называться Ираном?", o: ["1907", "1925", "1935", "1945"], a: 2, e: "В 1935 г. при Реза-шахе Пехлеви страна официально переименована в Иран." },
+    { q: "С какой целью в 1807 г. в Тегеран прибыла французская миссия генерала Гардана?", o: ["Помочь шаху подавить восстание бабидов", "Подстрекать шаха против России и Англии", "Получить табачную концессию", "Договориться о разделе Ирана с Англией"], a: 1, e: "Наполеон хотел направить Иран против России и Англии и открыть путь к Индии." },
+    { q: "Годы первой русско-иранской войны:", o: ["1804–1813", "1826–1828", "1853–1856", "1856–1857"], a: 0, e: "Первая русско-иранская война шла в 1804–1813 гг." },
+    { q: "Чем закончилась русско-иранская война 1804–1813 гг.?", o: ["Победой Ирана и возвратом Грузии", "Разделом Ирана на сферы влияния", "Победой России — Гюлистанский мир", "Вмешательством Англии и нейтрализацией Каспия"], a: 2, e: "По Гюлистанскому миру 1813 г. Иран признал за Россией Дагестан, Грузию и ханства Северного Азербайджана." },
+    { q: "Каковы итоги Туркманчайского мирного договора 1828 г.?", o: ["Иран отказался от Герата", "Граница по реке Аракс, Восточная Армения — России, контрибуция 20 млн рублей", "Иран разделён на три зоны влияния", "Англия получила право держать флот на Каспии"], a: 1, e: "Туркманчай: граница по Араксу, Эриванское и Нахичеванское ханства — России, 20 млн рублей контрибуции." },
+    { q: "Какая часть Ирана стала сферой влияния России по соглашению 1907 г.?", o: ["Юго-восточная", "Центральная", "Северная", "Побережье Персидского залива"], a: 2, e: "Север — Россия, центр — нейтральная зона, юго-восток — Англия." },
+    { q: "Как переводится название учебного заведения Дар уль-Фунун (1851)?", o: ["«Дом справедливости»", "«Дом наук»", "«Новый порядок»", "«Дом мудрости»"], a: 1, e: "Дар уль-Фунун — «Дом наук», основан по инициативе Амир Кабира." },
+    { q: "Что стало главным итогом Иранской революции в 1906 г.?", o: ["Свержение династии Каджаров", "Конституционная реформа: созыв меджлиса и принятие конституции", "Отмена всех иностранных концессий", "Изгнание русских и английских войск"], a: 1, e: "В 1906 г. созван первый меджлис и принят Основной закон — Иран стал конституционной монархией." },
+  ]},
+  { title: "Тема 18. Османская империя и Танзимат", sub: "Вопросы раздела «Проверь себя», ustudy.kz", qs: [
+    { q: "Каким документом начались реформы Танзимат?", o: ["Гюльханейским хатт-и шерифом", "Конституцией Мидхат-паши", "Кючук-Кайнарджийским договором", "Хатт-и хумаюном"], a: 0, e: "Хатт-и шериф 1839 г. гарантировал подданным безопасность жизни, чести и имущества." },
+    { q: "Какой султан ликвидировал корпус янычар в 1826 году?", o: ["Селим III", "Абдул-Хамид II", "Махмуд II", "Сулейман I"], a: 2, e: "Махмуд II уничтожил янычар и создал новую армию." },
+    { q: "Что из перечисленного стало результатом Танзимата?", o: ["Полная независимость от европейских займов", "Создание светских школ и новых кодексов законов", "Возвращение Крыма", "Отмена султаната"], a: 1, e: "Танзимат модернизировал образование и право, но не избавил империю от долгов." },
+    { q: "Кто был автором первой османской конституции 1876 года?", o: ["Мустафа Кемаль", "Мухаммед Али", "Энвер-паша", "Мидхат-паша"], a: 3, e: "Великий визирь Мидхат-паша добился конституции, но Абдул-Хамид II вскоре её приостановил." },
+    { q: "Какое событие показывает ослабление Османской империи во второй половине XVIII века?", o: ["Взятие Константинополя", "Кючук-Кайнарджийский мир с Россией", "Битва при Мохаче", "Создание миллетов"], a: 1, e: "Мир 1774 г. закрепил поражение Турции и потерю контроля над Крымом." },
+  ]},
+  { title: "Тема 19. Китай и европейские державы в XIX веке", sub: "Вопросы раздела «Проверь себя», ustudy.kz", qs: [
+    { q: "Какой товар стал главной причиной первой войны Англии против Китая в 1840 году?", o: ["Чай", "Шёлк", "Опиум", "Фарфор"], a: 2, e: "Китай запретил ввоз опиума, и Англия начала первую опиумную войну." },
+    { q: "По Нанкинскому договору 1842 года Великобритания получила:", o: ["Порт-Артур", "Гонконг", "Тайвань", "Циндао"], a: 1, e: "Гонконг перешёл Англии, и были открыты пять портов." },
+    { q: "Государство, провозгласившее в 1899 году доктрину «открытых дверей» в Китае:", o: ["Германия", "Япония", "Франция", "США"], a: 3, e: "Госсекретарь США Дж. Хэй потребовал равных торговых прав для всех держав." },
+    { q: "Под каким лозунгом действовали ихэтуани?", o: ["«Поддержим Цин, уничтожим иностранцев!»", "«Земля — тем, кто её обрабатывает!»", "«Свергнем маньчжуров, восстановим Мин!»", "«Демократия и наука!»"], a: 0, e: "Ихэтуани боролись против иностранцев и поддерживали династию Цин." },
+    { q: "Какое понятие означает торговое поселение европейцев в чужой стране?", o: ["Миссия", "Метрополия", "Протекторат", "Фактория"], a: 3, e: "Фактории — укреплённые торговые склады-поселения, как в Кантоне." },
+  ]},
+  { title: "Тема 20. Революции 1848 г. Объединение Италии и Германии", sub: "Вопросы раздела «Проверь себя», ustudy.kz", qs: [
+    { q: "Кто возглавил поход «Тысячи» в 1860 году?", o: ["Дж. Мадзини", "К. Кавур", "Дж. Гарибальди", "Виктор Эммануил II"], a: 2, e: "Гарибальди с добровольцами освободил Сицилию и Неаполь." },
+    { q: "Где была провозглашена Германская империя в 1871 году?", o: ["В Берлине", "Во Франкфурте", "В Вене", "В Версале"], a: 3, e: "Вильгельма I провозгласили императором в Зеркальном зале Версаля." },
+    { q: "Какое произведение К. Маркса и Ф. Энгельса вышло в 1848 году?", o: ["«Манифест Коммунистической партии»", "«Капитал»", "«Общественный договор»", "«Что делать?»"], a: 0, e: "В «Манифесте» изложена идея классовой борьбы и пролетарской революции." },
+    { q: "Какую территорию Франция потеряла по итогам франко-прусской войны?", o: ["Савойю и Ниццу", "Эльзас и часть Лотарингии", "Корсику", "Бургундию"], a: 1, e: "По Франкфуртскому миру 1871 г. Эльзас и часть Лотарингии отошли Германии." },
+    { q: "Какое государство стало ядром объединения Италии?", o: ["Папская область", "Королевство Обеих Сицилий", "Ломбардия", "Сардинское королевство (Пьемонт)"], a: 3, e: "Объединение шло вокруг Сардинского королевства и династии Виктора Эммануила II." },
+  ]},
+];
 
-    function checkInstant(qId, correctVal) {
-        let card = document.getElementById(qId);
-        let selected = card.querySelector(`input[name="${qId}"]:checked`);
-        let labels = card.querySelectorAll('.option-label');
+const quiz = document.getElementById("quiz");
+const scoreEl = document.getElementById("score");
+const resultEl = document.getElementById("result");
+const total = SECTIONS.reduce((n, s) => n + s.qs.length, 0);
+let answered = 0, correct = 0;
 
-        labels.forEach(l => l.classList.remove('correct-choice', 'wrong-choice'));
+function updateScore() {
+  scoreEl.innerHTML = `Верно: ${correct} <span>/ отвечено ${answered} из ${total}</span>`;
+  if (answered === total) {
+    const pct = Math.round(correct / total * 100);
+    resultEl.innerHTML = `<strong>${correct} из ${total}</strong>${pct}% правильных ответов`;
+    resultEl.classList.add("show");
+  } else {
+    resultEl.classList.remove("show");
+  }
+}
 
-        if (selected) {
-            if (selected.value === correctVal) {
-                selected.parentElement.classList.add('correct-choice');
-            } else {
-                selected.parentElement.classList.add('wrong-choice');
-                let correctInput = card.querySelector(`input[value="${correctVal}"]`);
-                if (correctInput) {
-                    correctInput.parentElement.classList.add('correct-choice');
-                }
-            }
-        }
-    }
+function render() {
+  quiz.innerHTML = "";
+  answered = 0; correct = 0;
+  let n = 0;
+  SECTIONS.forEach(sec => {
+    const h = document.createElement("h2"); h.textContent = sec.title; quiz.appendChild(h);
+    const p = document.createElement("p"); p.className = "sub"; p.textContent = sec.sub; quiz.appendChild(p);
+    sec.qs.forEach(item => {
+      n++;
+      const box = document.createElement("section"); box.className = "q";
+      const t = document.createElement("h3");
+      t.innerHTML = `<b>${n}.</b>`; t.appendChild(document.createTextNode(item.q));
+      box.appendChild(t);
+      const opts = document.createElement("div"); opts.className = "opts";
+      const btns = item.o.map((text, i) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "opt"; b.textContent = text;
+        b.addEventListener("click", () => {
+          btns.forEach(x => x.disabled = true);
+          btns[item.a].classList.add("ok");
+          if (i !== item.a) b.classList.add("bad"); else correct++;
+          answered++;
+          box.classList.add("done");
+          updateScore();
+        });
+        opts.appendChild(b);
+        return b;
+      });
+      box.appendChild(opts);
+      const ex = document.createElement("p"); ex.className = "expl"; ex.textContent = item.e;
+      box.appendChild(ex);
+      quiz.appendChild(box);
+    });
+  });
+  updateScore();
+}
 
-    function finishQuiz() {
-        let score = 0;
-        let total = Object.keys(answerKeys).length;
-
-        for (let qId in answerKeys) {
-            let selected = document.querySelector(`input[name="${qId}"]:checked`);
-            if (selected && selected.value === answerKeys[qId]) {
-                score++;
-            }
-            checkInstant(qId, answerKeys[qId]);
-        }
-
-        let resultBox = document.getElementById('result-box');
-        resultBox.style.display = 'block';
-        let percentage = Math.round((score / total) * 100);
-
-        if (percentage >= 70) {
-            resultBox.className = 'result-good';
-            resultBox.innerHTML = `Отлично! Вы верно ответили на ${score} из ${total} вопросов (${percentage}%).`;
-        } else {
-            resultBox.className = 'result-bad';
-            resultBox.innerHTML = `Результат: ${score} из ${total} (${percentage}%). Все правильные ответы подсвечены зеленым.`;
-        }
-
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
+document.getElementById("reset").addEventListener("click", () => { render(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+render();
 </script>
-
 </body>
 </html>
